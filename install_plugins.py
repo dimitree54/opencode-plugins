@@ -67,7 +67,7 @@ def find_agent_dir(directory: Path) -> Path | None:
 
 
 def find_skill_dir(directory: Path) -> Path | None:
-    skill_dir = directory / "skills"
+    skill_dir = directory / ".opencode" / "skills"
     return skill_dir if skill_dir.is_dir() else None
 
 
@@ -102,7 +102,7 @@ def load_plugin(repo_root: Path, plugin_name: str) -> PluginBundle:
     if not agent_files and root_agents_file is None and not skill_entries:
         raise fail(
             f"Plugin '{plugin_name}' does not contain '.opencode/agents', "
-            "'skills/', or AGENTS.md."
+            "'.opencode/skills', or AGENTS.md."
         )
 
     return PluginBundle(

@@ -46,7 +46,9 @@ class InstallPluginsTests(unittest.TestCase):
 
         if skills:
             for relative_path, content in skills.items():
-                write_file(plugin_root / "skills" / relative_path, content)
+                write_file(
+                    plugin_root / ".opencode" / "skills" / relative_path, content
+                )
 
         if rules is not None:
             write_file(plugin_root / "AGENTS.md", rules)
