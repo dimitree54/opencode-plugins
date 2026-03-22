@@ -21,5 +21,14 @@ Describes main agents to work with docs driven repo
 ## path2dream-packaged-docs-structure
 Describes the documents organization of the repo with focusing on repos with multiple sub-packages
 
+## path2dream-uv
+General rules for managing python
+
+## path2dream-doppler-env
+General rules for working with env
+
+## path2dream-code-style
+General code styles
+
 ## TODO
 - Dump conversations with user and use them as part of the docs (raw source of truth to read on demand)

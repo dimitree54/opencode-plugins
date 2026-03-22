@@ -31,6 +31,8 @@ The file stores only things that user explicitly mentioned, not things that AI a
 ### _AI_CONTRIBUTION.md
 It is a detailed low-level documentation of all architectural decision. Everything new developer needs to know to immediately understand the current package state. All decision, potential problems, dev notes need to be documented here.
 
+Also, this file contains QA policy of the package. Describe, what gates should pass after code changes.
+
 ## Docs policy
 
 ### Default policy
