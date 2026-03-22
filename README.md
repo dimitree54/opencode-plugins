@@ -6,5 +6,5 @@ Bundle for notes management. Contains 2 primary agents for adding notes and for 
 Bundle assumes using [telegram client for opencode](https://github.com/grinev/opencode-telegram-bot)
 
 ### Authors
-- @dimitree54
-- @julyrashchenko
+- [@dimitree54](https://github.com/dimitree54)
+- [@julyrashchenko](https://github.com/julyrashchenko)
