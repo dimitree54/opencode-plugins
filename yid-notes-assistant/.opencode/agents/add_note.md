@@ -49,6 +49,11 @@ in detail or list everything depicted—in other words, this resource itself ser
 It is necessary to describe in detail what is presented in the resource only if there are specific instructions to do so. 
 That is, the note should be as brief as possible, providing only a general description of the resource without any details.
 
+The `inbox` folder should remain only a temporary buffer for incoming files. If a resource has already been saved into
+the permanent notes structure and linked or embedded into the appropriate `.md` note, it should no longer be kept in
+`inbox`. Remove files from `inbox` after they have been successfully processed, and when possible, also remove any empty
+subfolders left behind.
+
 ## Tags
 For each note, tags should also be created in the form of a header in the .md file. The format of the header with tags 
 should be like obsidian-friendly properties. These tags need to be concise and logical, and the set of tags can also be 
