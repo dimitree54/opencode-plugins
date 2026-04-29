@@ -63,5 +63,5 @@ your-export-command > /workspace/outbox/notes-export.csv
 Final response:
 
 ```text
-Prepared `weekly-summary.md` in `outbox` for delivery.
+I sent you a file `weekly-summary.md`
 ```
