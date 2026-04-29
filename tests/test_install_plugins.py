@@ -110,7 +110,11 @@ class InstallerTestCase(unittest.TestCase):
                 repo_root=self.plugins_root,
             )
 
-    def install_system(self, *plugins: str) -> int:
+    def install_system(
+        self,
+        *plugins: str,
+        overwrite_existing: bool = False,
+    ) -> int:
         stdout = io.StringIO()
         stderr = io.StringIO()
         with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
@@ -118,6 +122,7 @@ class InstallerTestCase(unittest.TestCase):
                 self.config_dir,
                 list(plugins),
                 repo_root=self.plugins_root,
+                overwrite_existing=overwrite_existing,
             )
 
     def only_backup_session(self) -> Path:
@@ -482,6 +487,48 @@ class SystemInstallPluginsTests(InstallerTestCase):
         self.assertEqual(
             (self.config_dir / "AGENTS.md").read_text(encoding="utf-8"),
             "# Global rules\n",
+        )
+
+    def test_system_install_overwrites_conflicting_artifacts_when_enabled(
+        self,
+    ) -> None:
+        self.make_plugin(
+            "plugin_one",
+            agents={"agent.md": "agent content"},
+            skills={"skill-one/SKILL.md": "skill content"},
+            rules="# Global rules",
+            config={"permission": {"read": "allow"}},
+        )
+        write_file(self.config_dir / "agents", "old agents artifact")
+        write_file(self.config_dir / "skills", "old skills artifact")
+        write_file(self.config_dir / "AGENTS.md", "old rules")
+        write_file(self.config_dir / "opencode.json", '{"permission": {"read": "deny"}}')
+        write_file(self.config_dir / "unrelated.txt", "keep me")
+
+        result = self.install_system("plugin_one", overwrite_existing=True)
+
+        self.assertEqual(result, 0)
+        self.assertEqual(
+            (self.config_dir / "agents" / "agent.md").read_text(encoding="utf-8"),
+            "agent content",
+        )
+        self.assertEqual(
+            (
+                self.config_dir / "skills" / "skill-one" / "SKILL.md"
+            ).read_text(encoding="utf-8"),
+            "skill content",
+        )
+        self.assertEqual(
+            (self.config_dir / "AGENTS.md").read_text(encoding="utf-8"),
+            "# Global rules\n",
+        )
+        self.assertEqual(
+            read_json(self.config_dir / "opencode.json"),
+            {"permission": {"read": "allow"}},
+        )
+        self.assertEqual(
+            (self.config_dir / "unrelated.txt").read_text(encoding="utf-8"),
+            "keep me",
         )
 
 

@@ -240,6 +240,14 @@ def copy_path(source: Path, destination: Path) -> None:
     shutil.copy2(source, destination)
 
 
+def remove_existing_path(path: Path) -> None:
+    if path.is_dir() and not path.is_symlink():
+        shutil.rmtree(path)
+        return
+
+    path.unlink()
+
+
 def unique_backup_path(path: Path) -> Path:
     if not path.exists():
         return path
@@ -252,7 +260,40 @@ def ensure_backup_dir(
     created_backup_dir: Path | None,
     target_root: Path,
 ) -> Path:
-    return created_backup_dir if created_backup_dir is not None else backup_session_dir(target_root)
+    return (
+        created_backup_dir
+        if created_backup_dir is not None
+        else backup_session_dir(target_root)
+    )
+
+
+def prepare_directory_root(path: Path, overwrite_existing: bool) -> None:
+    if path.exists():
+        if path.is_dir():
+            return
+        if not overwrite_existing:
+            raise fail(f"'{path}' exists but is not a directory.")
+        remove_existing_path(path)
+
+    path.mkdir(parents=True, exist_ok=True)
+
+
+def prepare_file_destination(path: Path, overwrite_existing: bool) -> None:
+    if path.exists() and path.is_dir() and not path.is_symlink():
+        if not overwrite_existing:
+            raise fail(f"'{path}' exists but is not a file.")
+        remove_existing_path(path)
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+
+def prepare_tree_destination(path: Path, overwrite_existing: bool) -> None:
+    if path.exists():
+        if not overwrite_existing:
+            raise fail(f"'{path}' already exists.")
+        remove_existing_path(path)
+
+    path.parent.mkdir(parents=True, exist_ok=True)
 
 
 def backup_project_target_state(
@@ -474,12 +515,13 @@ def aggregate_plugin_configs(plugins: list[PluginBundle]) -> dict[str, Any] | No
 def write_aggregated_config(
     destination: Path,
     plugins: list[PluginBundle],
+    overwrite_existing: bool = False,
 ) -> Path | None:
     merged_config = aggregate_plugin_configs(plugins)
     if merged_config is None:
         return None
 
-    destination.parent.mkdir(parents=True, exist_ok=True)
+    prepare_file_destination(destination, overwrite_existing)
     destination.write_text(
         json.dumps(merged_config, indent=2, sort_keys=False) + "\n",
         encoding="utf-8",
@@ -525,11 +567,28 @@ def install_plugins_project(
     )
 
 
-def preflight_system_targets(config_dir: Path, plugins: list[PluginBundle]) -> None:
+def preflight_system_targets(
+    config_dir: Path,
+    plugins: list[PluginBundle],
+    overwrite_existing: bool,
+) -> None:
     if config_dir.exists() and not config_dir.is_dir():
-        raise fail(f"'{config_dir}' exists but is not a directory.")
+        if not overwrite_existing:
+            raise fail(f"'{config_dir}' exists but is not a directory.")
+        return
+
+    if overwrite_existing:
+        return
 
     conflicts: list[Path] = []
+    target_agents_dir = config_dir / "agents"
+    target_skills_dir = config_dir / "skills"
+
+    if target_agents_dir.exists() and not target_agents_dir.is_dir():
+        conflicts.append(target_agents_dir)
+
+    if target_skills_dir.exists() and not target_skills_dir.is_dir():
+        conflicts.append(target_skills_dir)
 
     if any(plugin.root_agents_file is not None for plugin in plugins):
         agents_file = config_dir / "AGENTS.md"
@@ -541,14 +600,12 @@ def preflight_system_targets(config_dir: Path, plugins: list[PluginBundle]) -> N
         if config_file.exists():
             conflicts.append(config_file)
 
-    target_agents_dir = config_dir / "agents"
     for plugin in plugins:
         for agent_file in plugin.agent_files:
             destination = target_agents_dir / agent_file.name
             if destination.exists():
                 conflicts.append(destination)
 
-    target_skills_dir = config_dir / "skills"
     for plugin in plugins:
         for skill_entry in plugin.skill_entries:
             destination = target_skills_dir / skill_entry.name
@@ -561,33 +618,49 @@ def preflight_system_targets(config_dir: Path, plugins: list[PluginBundle]) -> N
         raise fail("\n".join(lines))
 
 
-def copy_system_agents(config_dir: Path, plugins: list[PluginBundle]) -> list[Path]:
+def copy_system_agents(
+    config_dir: Path,
+    plugins: list[PluginBundle],
+    overwrite_existing: bool,
+) -> list[Path]:
     copied_files: list[Path] = []
     target_agents_dir = config_dir / "agents"
+    prepare_directory_root(target_agents_dir, overwrite_existing)
 
     for plugin in plugins:
         for agent_file in plugin.agent_files:
             destination = target_agents_dir / agent_file.name
+            prepare_file_destination(destination, overwrite_existing)
             copy_path(agent_file, destination)
             copied_files.append(destination)
 
     return copied_files
 
 
-def copy_system_skills(config_dir: Path, plugins: list[PluginBundle]) -> list[Path]:
+def copy_system_skills(
+    config_dir: Path,
+    plugins: list[PluginBundle],
+    overwrite_existing: bool,
+) -> list[Path]:
     copied_entries: list[Path] = []
     target_skills_dir = config_dir / "skills"
+    prepare_directory_root(target_skills_dir, overwrite_existing)
 
     for plugin in plugins:
         for skill_entry in plugin.skill_entries:
             destination = target_skills_dir / skill_entry.name
+            prepare_tree_destination(destination, overwrite_existing)
             copy_path(skill_entry, destination)
             copied_entries.append(destination)
 
     return copied_entries
 
 
-def write_system_agents(config_dir: Path, plugins: list[PluginBundle]) -> Path | None:
+def write_system_agents(
+    config_dir: Path,
+    plugins: list[PluginBundle],
+    overwrite_existing: bool,
+) -> Path | None:
     sections: list[str] = []
     for plugin in plugins:
         if plugin.root_agents_file is None:
@@ -600,7 +673,7 @@ def write_system_agents(config_dir: Path, plugins: list[PluginBundle]) -> Path |
         return None
 
     destination = config_dir / "AGENTS.md"
-    destination.parent.mkdir(parents=True, exist_ok=True)
+    prepare_file_destination(destination, overwrite_existing)
     destination.write_text("\n\n".join(sections) + "\n", encoding="utf-8")
     return destination
 
@@ -609,14 +682,24 @@ def install_plugins_system(
     config_dir: Path,
     plugin_names: list[str],
     repo_root: Path,
+    overwrite_existing: bool = False,
 ) -> SystemInstallResult:
     plugins = load_plugins(repo_root, plugin_names)
-    preflight_system_targets(config_dir, plugins)
+    preflight_system_targets(config_dir, plugins, overwrite_existing)
+    prepare_directory_root(config_dir, overwrite_existing)
 
-    copied_agents = copy_system_agents(config_dir, plugins)
-    copied_skills = copy_system_skills(config_dir, plugins)
-    merged_agents_file = write_system_agents(config_dir, plugins)
-    merged_config_file = write_aggregated_config(config_dir / "opencode.json", plugins)
+    copied_agents = copy_system_agents(config_dir, plugins, overwrite_existing)
+    copied_skills = copy_system_skills(config_dir, plugins, overwrite_existing)
+    merged_agents_file = write_system_agents(
+        config_dir,
+        plugins,
+        overwrite_existing,
+    )
+    merged_config_file = write_aggregated_config(
+        config_dir / "opencode.json",
+        plugins,
+        overwrite_existing=overwrite_existing,
+    )
 
     return SystemInstallResult(
         copied_agents=copied_agents,
