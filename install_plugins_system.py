@@ -2,14 +2,14 @@ import argparse
 import sys
 from pathlib import Path
 
-from _opencode_plugin_installer import InstallPluginsError, install_plugins_project
+from _opencode_plugin_installer import InstallPluginsError, install_plugins_system
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Copy agent files and skills from selected plugins into a target "
-            "repository and merge AGENTS.md/opencode.json content."
+            "Copy agent files and skills from selected plugins into the global "
+            "opencode config directory without overwriting existing files."
         )
     )
     parser.add_argument(
@@ -18,15 +18,15 @@ def parse_args() -> argparse.Namespace:
         help="Plugin directory names from this repository.",
     )
     parser.add_argument(
-        "--target",
-        required=True,
-        help="Path to the target repository.",
+        "--config-dir",
+        default="~/.config/opencode",
+        help="Global opencode config directory. Defaults to ~/.config/opencode.",
     )
     return parser.parse_args()
 
 
-def install_plugins(
-    target_root: Path,
+def install_system_plugins(
+    config_dir: Path,
     plugin_names: list[str],
     repo_root: Path | None = None,
 ) -> int:
@@ -35,7 +35,7 @@ def install_plugins(
         if repo_root is not None
         else Path(__file__).resolve().parent
     )
-    result = install_plugins_project(target_root, plugin_names, resolved_repo_root)
+    result = install_plugins_system(config_dir, plugin_names, resolved_repo_root)
 
     print(
         f"Installed {len(result.copied_agents)} agent file(s) into "
@@ -46,17 +46,14 @@ def install_plugins(
         f"'{result.target_skills_dir}'."
     )
     if result.merged_agents_file is not None:
-        print(f"Merged AGENTS.md content into '{result.merged_agents_file}'.")
+        print(f"Wrote AGENTS.md content into '{result.merged_agents_file}'.")
     else:
-        print("No AGENTS.md content was found to merge.")
+        print("No AGENTS.md content was found to write.")
 
     if result.merged_config_file is not None:
-        print(f"Merged opencode.json content into '{result.merged_config_file}'.")
+        print(f"Wrote opencode.json content into '{result.merged_config_file}'.")
     else:
-        print("No opencode.json content was found to merge.")
-
-    if result.backup_dir is not None:
-        print(f"Backups were written to '{result.backup_dir}'.")
+        print("No opencode.json content was found to write.")
 
     return 0
 
@@ -64,7 +61,10 @@ def install_plugins(
 def main() -> int:
     args = parse_args()
     try:
-        return install_plugins(Path(args.target).expanduser().resolve(), args.plugins)
+        return install_system_plugins(
+            Path(args.config_dir).expanduser().resolve(),
+            args.plugins,
+        )
     except InstallPluginsError as error:
         print(f"Error: {error}", file=sys.stderr)
         return 1
