@@ -1,6 +1,6 @@
 ---
 name: send-files-to-user
-description: "Use when the assistant needs to send a generated file to the user from a containerized OpenCode session. The delivery mechanism is the mounted outbox directory: create a file in the outbox so the surrounding client can list, download, deliver, and remove it. Covers file naming, size, format, and safety constraints."
+description: "Use it when you need to send some file to user."
 ---
 
 # Send Files to User
