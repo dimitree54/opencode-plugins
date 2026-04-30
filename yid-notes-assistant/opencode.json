@@ -13,34 +13,6 @@
     }
   },
   "permission": {
-    "*": "deny",
-    "read": {
-      "*": "deny",
-      "/workspace": "allow",
-      "/workspace/**": "allow",
-      "/tmp": "allow",
-      "/tmp/**": "allow"
-    },
-    "edit": {
-      "*": "deny",
-      "/workspace": "allow",
-      "/workspace/**": "allow",
-      "/tmp": "allow",
-      "/tmp/**": "allow"
-    },
-    "glob": {
-      "*": "deny",
-      "/workspace": "allow",
-      "/workspace/**": "allow",
-      "/tmp": "allow",
-      "/tmp/**": "allow"
-    },
-    "external_directory": {
-      "*": "deny",
-      "/workspace": "allow",
-      "/workspace/**": "allow",
-      "/tmp": "allow",
-      "/tmp/**": "allow"
-    }
+    "external_directory": "deny"
   }
 }
