@@ -3,5 +3,15 @@
   "model": "openai/gpt-5.5",
   "permission": {
     "external_directory": "deny"
+  },
+  "agent": {
+  "general": {
+    "model": "openai/gpt-5.4-mini",
+    "reasoning": "max"
+  },
+  "explore": {
+    "model": "openai/gpt-5.4-mini",
+    "reasoning": "max"
+  }
   }
 }
