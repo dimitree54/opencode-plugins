@@ -12,7 +12,7 @@ Even if you need temp files - do not use `/tmp`, create `tmp` dir right in works
 
 ## Special files and folders
 The workspace dir has the following special dirs and folders:
-- `inbox` - it is folder where files sent by user saved and await further processing. Usually you need to move this files to the proper dir within `notes` (unless it was temporary file). After processing, keep `inbox` clean
+- `inbox` - it is folder where files sent by user saved and await further processing. Usually you need to move this files to the proper dir within `workspace` (unless it was temporary file). After processing, keep `inbox` clean
 - `outbox` - it is a folder which you can use to send files to user. Use the skill `send-files-to-user` for more info when needed.
 - `TOC.md` - Table of content of the user's documents (does not include inbox/outbox contents). If you need to modify it, make sure to first execute `notes-structure` skill.
 
