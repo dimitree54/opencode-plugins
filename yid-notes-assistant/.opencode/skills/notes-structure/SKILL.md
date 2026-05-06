@@ -45,6 +45,20 @@ in detail or list everything depicted—in other words, this resource itself ser
 It is necessary to describe in detail what is presented in the resource only if there are specific instructions to do so. 
 That is, the note should be as brief as possible, providing only a general description of the resource without any details.
 
+### Image handling
+
+When saving images attached to notes, compress them by default to reduce storage usage, unless the user explicitly says the image should not be compressed or that the original file must be preserved without changes.
+
+Use one practical default preset:
+
+- Resize the image so the longest side is at most `1280` px.
+- Do not upscale smaller images.
+- Save with good visual quality suitable for viewing inside notes.
+- Preserve the original file format whenever possible: JPEG stays JPEG, PNG stays PNG, WebP stays WebP, and so on.
+
+The goal is not archival quality, but a lightweight visual reference that remains clear enough to recognize the content.
+Use exceptions only when the original file quality, exact pixels, metadata, or lossless preservation is clearly important.
+
 The `inbox` folder should remain only a temporary buffer for incoming files. When a resource has already been saved into
 the permanent notes structure and linked or embedded into the appropriate `.md` note, it should no longer be kept in
 `inbox`. Remove files from `inbox` after they have been successfully processed, and when possible, also remove any empty
