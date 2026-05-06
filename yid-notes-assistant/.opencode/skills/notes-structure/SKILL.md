@@ -59,6 +59,20 @@ Use one practical default preset:
 The goal is not archival quality, but a lightweight visual reference that remains clear enough to recognize the content.
 Use exceptions only when the original file quality, exact pixels, metadata, or lossless preservation is clearly important.
 
+Available tools for image work:
+
+- `ImageMagick` as the main default toolkit.
+- `magick` and `identify` for conversion, resize, compression, and metadata inspection.
+- `jpegoptim` for additional JPEG optimization.
+- `optipng` and `pngquant` for PNG optimization.
+- `ffmpeg` as a universal fallback for resize, conversion, animated formats, and frame extraction.
+- `webp` tools: `cwebp`, `dwebp`, `gif2webp`.
+- `libheif-examples` tools: `heif-convert`, `heif-info` for HEIC and HEIF images.
+- Python fallback: `Pillow` and `pillow-heif` when CLI tools are unavailable or custom processing is needed.
+
+Prefer CLI tools first. Use `ImageMagick` as the default choice when it is available. Use format-specific optimizers 
+like `jpegoptim`, `optipng`, and `pngquant` as a second pass when they meaningfully reduce file size.
+
 The `inbox` folder should remain only a temporary buffer for incoming files. When a resource has already been saved into
 the permanent notes structure and linked or embedded into the appropriate `.md` note, it should no longer be kept in
 `inbox`. Remove files from `inbox` after they have been successfully processed, and when possible, also remove any empty
