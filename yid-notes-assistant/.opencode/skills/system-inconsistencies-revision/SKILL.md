@@ -40,20 +40,24 @@ Review the system for these classes of issues:
 4. Tag drift between notes and the tag list recorded in `TOC.md`.
 5. Obsolete tags that are no longer used anywhere.
 6. Weak or inconsistent tags on notes that were manually edited outside the assistant.
-7. Empty folders left behind after moves or deletions.
-8. Obvious naming or placement inconsistencies that make the note system harder to navigate.
+7. Stale links from aggregating files such as tables, indexes, lists, dashboards, or category overviews that still 
+reference removed, renamed, or moved notes.
+8. Empty folders left behind after moves or deletions.
+9. Obvious naming or placement inconsistencies that make the note system harder to navigate.
 
 ## Workflow
 
 1. Read `TOC.md` and inspect the current note tree.
 2. Compare the documented structure against the actual files and folders.
 3. Collect the tags currently used across notes.
-4. Identify stale entries, missing entries, unused tags, and obvious classification problems.
-5. Update `TOC.md` so it reflects the real current structure.
-6. Remove tags from `TOC.md` that are no longer used.
-7. If some notes clearly need better tags, fix them conservatively.
-8. Remove empty folders when they are clearly leftovers and not intentional.
-9. Summarize what was reconciled.
+4. Check aggregating files inside categories for references to notes that no longer exist or have moved.
+5. Identify stale entries, missing entries, unused tags, broken references, and obvious classification problems.
+6. Update or remove broken references in aggregating files when the fix is clear.
+7. Update `TOC.md` so it reflects the real current structure.
+8. Remove tags from `TOC.md` that are no longer used.
+9. If some notes clearly need better tags, fix them conservatively.
+10. Remove empty folders when they are clearly leftovers and not intentional.
+11. Summarize what was reconciled.
 
 ## Editing Rules
 
@@ -61,6 +65,7 @@ Review the system for these classes of issues:
 - Do not invent new structure unless the current inconsistency clearly requires it.
 - Do not rewrite note content just to make it prettier.
 - Be conservative with retagging. Fix obvious problems, but do not overclassify.
+- Treat aggregating files as secondary indexes: keep them aligned with the real notes they reference.
 - If a note could reasonably belong in more than one place, keep the current placement unless there is a strong reason to move it.
 - If a mismatch is ambiguous, ask the user instead of guessing.
 
@@ -72,6 +77,8 @@ Ask a short clarifying question if:
 - A folder looks empty but may be a reserved category.
 - A note seems misclassified, but the intended taxonomy is unclear.
 - Two possible tag schemes both look reasonable.
+- An aggregating file references a missing note, but it is unclear whether the reference should be removed, replaced, or 
+converted into a standalone entry without a note.
 - A larger restructuring is needed beyond simple reconciliation.
 
 ## Expected Outcomes
@@ -84,6 +91,7 @@ After running this skill, the system should have:
 - Missing notes or folders reflected in `TOC.md`.
 - Obsolete tags removed.
 - Obviously inconsistent tags corrected where safe.
+- Broken references from aggregating files fixed where the intended correction is clear.
 
 ## Response Style
 
