@@ -42,6 +42,8 @@ database.
 If the user asks to review, refresh, reconcile, or clean up the notes system, or if you notice that `TOC.md`, tags, 
 folders, or note placement appear out of sync with the actual files, execute `system-inconsistencies-revision`.
 
+If the user asks to reorganize or improve the presentation of tags inside `TOC.md`, execute `toc-tag-grouping`.
+
 #### Example user's message:
 - I want to watch film X
 

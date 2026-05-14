@@ -100,3 +100,8 @@ necessary.
 
 If the current notes tree, tags, or `TOC.md` may have drifted after manual edits, deletions, renames, or moves, use 
 `system-inconsistencies-revision` before making broader structural changes.
+
+If the tag list in `TOC.md` becomes long or hard to scan, use `toc-tag-grouping` to organize it into meaningful groups.
+
+When adding new tags during normal note creation or editing, place them into the most appropriate existing group in 
+`TOC.md` when possible. If no good group exists, create a new one instead of extending an unstructured flat list.
