@@ -97,3 +97,6 @@ each addition of a note or any changes to the folder structure.
 
 This Table of Contents file should also contain a list of all the tags used in the system and should also be updated if 
 necessary.
+
+If the current notes tree, tags, or `TOC.md` may have drifted after manual edits, deletions, renames, or moves, use 
+`system-inconsistencies-revision` before making broader structural changes.

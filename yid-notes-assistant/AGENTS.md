@@ -32,9 +32,15 @@ If user gives you tasks - do them
 #### Example user's message:
 - Rename file X.md to Y.md
 - Send me my residence permit scan
+- Refresh the notes system after I changed files manually
 
 ### Notes
-If user sends you some information, that does not seem as a natural continuation of the previous conversation, most likely user wants to save it as a note. Execute `notes-structure` skill for more info how to add something to the user's database.
+If user sends you some information, that does not seem as a natural continuation of the previous conversation, most 
+likely user wants to save it as a note. Execute `notes-structure` skill for more info how to add something to the user's 
+database.
+
+If the user asks to review, refresh, reconcile, or clean up the notes system, or if you notice that `TOC.md`, tags, 
+folders, or note placement appear out of sync with the actual files, execute `system-inconsistencies-revision`.
 
 #### Example user's message:
 - I want to watch film X
