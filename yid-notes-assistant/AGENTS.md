@@ -44,6 +44,8 @@ folders, or note placement appear out of sync with the actual files, execute `sy
 
 If the user asks to reorganize or improve the presentation of tags inside `TOC.md`, execute `toc-tag-grouping`.
 
+If the user asks to make `TOC.md` easier to navigate, more hierarchical, more link-driven, or less verbose, execute `toc-navigation-structure`.
+
 #### Example user's message:
 - I want to watch film X
 

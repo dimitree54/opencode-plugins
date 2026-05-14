@@ -61,6 +61,9 @@ reference removed, renamed, or moved notes.
 
 If the tag section in `TOC.md` is still technically correct but has become flat, noisy, or hard to navigate, use `toc-tag-grouping`.
 
+If `TOC.md` is structurally accurate but still hard to navigate because it is too verbose, weakly linked, or not 
+hierarchical enough, use `toc-navigation-structure`.
+
 ## Editing Rules
 
 - Prefer small corrective edits over broad reorganization.

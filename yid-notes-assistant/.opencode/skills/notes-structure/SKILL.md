@@ -105,3 +105,6 @@ If the tag list in `TOC.md` becomes long or hard to scan, use `toc-tag-grouping`
 
 When adding new tags during normal note creation or editing, place them into the most appropriate existing group in 
 `TOC.md` when possible. If no good group exists, create a new one instead of extending an unstructured flat list.
+
+If `TOC.md` becomes too long, too flat, or too verbose for everyday navigation, use `toc-navigation-structure` to make 
+it more hierarchical, linked, and concise.
