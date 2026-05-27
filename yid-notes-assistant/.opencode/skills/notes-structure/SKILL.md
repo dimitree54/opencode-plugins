@@ -38,6 +38,9 @@ the intention is, then you don’t need to ask such questions. You should also m
 you decided to place this note — that is, into which cell, folder, or how the organization will be changed when adding 
 this note.
 
+If the content really belongs to a structured collection with its own update workflow, do not force it into an ordinary standalone note. 
+Use the dedicated collection skill instead. For tracked TV series with watch progress and release checks, use `tv-series-tracking`.
+
 ## Resources
 All resources that are loaded along with the note or instead of the note must be saved in their original form along 
 with the .md note and used as a link or as an image, if it is an image, in the .md file. There is no need to describe 

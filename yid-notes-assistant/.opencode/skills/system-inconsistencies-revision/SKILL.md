@@ -97,6 +97,7 @@ After running this skill, the system should have:
 - Obsolete tags removed.
 - Obviously inconsistent tags corrected where safe.
 - Broken references from aggregating files fixed where the intended correction is clear.
+- Dedicated collection notes, including any TV series tracking table, aligned with the current actual content and links.
 
 ## Response Style
 
