@@ -46,12 +46,8 @@ If the user asks to reorganize or improve the presentation of tags inside `TOC.m
 
 If the user asks to make `TOC.md` easier to navigate, more hierarchical, more link-driven, or less verbose, execute `toc-navigation-structure`.
 
-If the user wants to save, track, update, or check TV series as a collection with watch progress and released seasons, execute `tv-series-tracking`.
-
 #### Example user's message:
 - I want to watch film X
-- Save The Simpsons to my TV series tracker
-- Check whether any tracked TV series have new seasons
 
 ### Files
 If user sends you some file, that does not seem as a natural continuation of the previous conversation, most likely user wants to save it. Execute `notes-structure` skill for more info how to add something to the user's database.

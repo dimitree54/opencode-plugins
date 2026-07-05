@@ -38,8 +38,8 @@ the intention is, then you don’t need to ask such questions. You should also m
 you decided to place this note — that is, into which cell, folder, or how the organization will be changed when adding 
 this note.
 
-If the content really belongs to a structured collection with its own update workflow, do not force it into an ordinary standalone note. 
-Use the dedicated collection skill instead. For tracked TV series with watch progress and release checks, use `tv-series-tracking`.
+If the content really belongs to a structured collection with its own update workflow, do not force it into an ordinary standalone note.
+Create or update a compact collection note inside the notes structure instead.
 
 ## Resources
 All resources that are loaded along with the note or instead of the note must be saved in their original form along 
