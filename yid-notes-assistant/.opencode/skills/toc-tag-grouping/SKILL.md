@@ -17,6 +17,9 @@ without reading one long undifferentiated tag list.
 ## Principles
 
 - Group tags by meaning, not just alphabetically.
+- Write each tag in Obsidian-clickable hashtag form, for example `#handmade`, `#diy`, `#eyeglasses`, or 
+`#sexual_wellness`.
+- Do not wrap tags in backticks, quotes, or wikilinks in the `TOC.md` tag list.
 - Use natural categories such as genres, countries, note formats, health topics, or other recurring conceptual families.
 - Show the result hierarchically.
 - Leave tags ungrouped when there is no clear good category for them.
@@ -62,8 +65,9 @@ Group names should stay short and obvious.
 2. Review the tags currently used across notes.
 3. Identify natural families of tags.
 4. Rewrite the tag section in a hierarchical grouped form.
-5. Leave truly uncategorizable tags in an ungrouped section.
-6. Keep the final structure easy to scan and maintain.
+5. Normalize every tag entry to clickable `#tag_name` form.
+6. Leave truly uncategorizable tags in an ungrouped section.
+7. Keep the final structure easy to scan and maintain.
 
 When new tags appear during normal note updates, do not wait for a separate regrouping request. Add each new tag 
 directly into the most appropriate existing group, or create a new group if that is the clearest fit. Full regrouping 
@@ -76,6 +80,7 @@ is only needed when the current structure has become noisy or confusing.
 - Do not create many one-item groups unless they are genuinely useful.
 - Keep stable groups stable across revisions when possible.
 - Prefer semantic grouping over mechanical grouping.
+- Keep tag spelling exactly aligned with the tags used in notes, including underscores.
 
 ## When To Ask The User
 
@@ -91,6 +96,7 @@ After running this skill, the tag section in `TOC.md` should be:
 
 - easier to scan
 - meaningfully grouped where appropriate
+- clickable in Obsidian through raw `#tag_name` entries
 - still simple to maintain
 - tolerant of tags that do not fit any strong category
 

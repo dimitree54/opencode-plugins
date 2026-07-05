@@ -105,6 +105,10 @@ plain text labels unless there is an actual category or index note to link.
 This Table of Contents file should also contain a list of all the tags used in the system and should also be updated if 
 necessary.
 
+In the `TOC.md` tag list, write tags in Obsidian-clickable hashtag form, for example `#handmade`, `#diy`, 
+`#eyeglasses`, or `#sexual_wellness`. Do not wrap tag names in backticks or quotes in the tag list, because that makes 
+them plain text instead of clickable Obsidian tag searches.
+
 If the current notes tree, tags, or `TOC.md` may have drifted after manual edits, deletions, renames, or moves, use 
 `system-inconsistencies-revision` before making broader structural changes.
 
