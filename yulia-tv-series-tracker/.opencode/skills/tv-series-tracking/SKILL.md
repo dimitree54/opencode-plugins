@@ -38,6 +38,10 @@ Separate per-series notes are allowed when a series needs a short description, p
 
 If the tracking file does not exist yet, create it during the first add operation.
 
+If `TOC.md` exists in the workspace, use it for navigation and keep it consistent with tracker file changes according to the workspace's existing TOC rules.
+
+If the workspace has dedicated instructions for maintaining `TOC.md`, follow those instructions instead of inventing new TOC rules in this skill.
+
 ## First-Time Setup
 
 When the user adds the first tracked TV series and no collection file exists yet:
@@ -46,6 +50,7 @@ When the user adds the first tracked TV series and no collection file exists yet
 2. Add a short title and, if useful, one brief sentence explaining the purpose of the table.
 3. Initialize the table with the chosen column layout.
 4. Add the first series row immediately.
+5. Update `TOC.md` if it exists.
 
 ## Preferred Table Shape
 
@@ -105,6 +110,7 @@ When the user asks to save or add a TV series:
 4. Ask which season the user has watched up to if that is not already clear.
 5. If the user has not watched any season, store the chosen default empty-state value consistently.
 6. Add the series as a new table row.
+7. Update `TOC.md` if it exists and the tracker file, `series/` folder, or a per-series note is new or moved.
 
 Use the title language that the user naturally uses for that series. If the user refers to the series as `Друзья`, store `Друзья`; if they refer to it as `Friends`, store `Friends`. Use canonical naming within that language rather than forcibly switching to English.
 
