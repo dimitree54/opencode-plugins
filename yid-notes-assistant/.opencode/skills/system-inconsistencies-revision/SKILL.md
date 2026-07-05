@@ -44,6 +44,7 @@ Review the system for these classes of issues:
 reference removed, renamed, or moved notes.
 8. Empty folders left behind after moves or deletions.
 9. Obvious naming or placement inconsistencies that make the note system harder to navigate.
+10. `TOC.md` folder entries written as Obsidian wikilinks even though no real note exists at that target.
 
 ## Workflow
 
@@ -55,9 +56,10 @@ reference removed, renamed, or moved notes.
 6. Update or remove broken references in aggregating files when the fix is clear.
 7. Update `TOC.md` so it reflects the real current structure.
 8. Remove tags from `TOC.md` that are no longer used.
-9. If some notes clearly need better tags, fix them conservatively.
-10. Remove empty folders when they are clearly leftovers and not intentional.
-11. Summarize what was reconciled.
+9. Convert folder-only wikilinks in `TOC.md` to plain text labels unless they point to a real category or index note.
+10. If some notes clearly need better tags, fix them conservatively.
+11. Remove empty folders when they are clearly leftovers and not intentional.
+12. Summarize what was reconciled.
 
 If the tag section in `TOC.md` is still technically correct but has become flat, noisy, or hard to navigate, use `toc-tag-grouping`.
 
@@ -71,6 +73,8 @@ hierarchical enough, use `toc-navigation-structure`.
 - Do not rewrite note content just to make it prettier.
 - Be conservative with retagging. Fix obvious problems, but do not overclassify.
 - Treat aggregating files as secondary indexes: keep them aligned with the real notes they reference.
+- In `TOC.md`, link only to real notes or files. Keep folder-only entries as plain text unless there is an actual 
+category or index note to link.
 - If a note could reasonably belong in more than one place, keep the current placement unless there is a strong reason to move it.
 - If a mismatch is ambiguous, ask the user instead of guessing.
 
@@ -94,6 +98,7 @@ After running this skill, the system should have:
 - A current tag list in `TOC.md`.
 - Stale references removed from `TOC.md`.
 - Missing notes or folders reflected in `TOC.md`.
+- Folder-only wikilinks in `TOC.md` converted to plain text labels where needed.
 - Obsolete tags removed.
 - Obviously inconsistent tags corrected where safe.
 - Broken references from aggregating files fixed where the intended correction is clear.

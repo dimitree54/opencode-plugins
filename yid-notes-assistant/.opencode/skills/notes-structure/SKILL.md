@@ -98,6 +98,10 @@ by you yourself to navigate the hierarchy more effectively and, for example, to 
 Likewise, it can also serve as a clear overview of the hierarchy for users. Therefore, this file should be updated after 
 each addition of a note or any changes to the folder structure.
 
+Use Obsidian links only for real notes or files. Do not make folder-only entries clickable with wikilinks such as 
+`[[Folder]]`, because Obsidian treats them as links to notes and may create unwanted empty notes. Represent folders as 
+plain text labels unless there is an actual category or index note to link.
+
 This Table of Contents file should also contain a list of all the tags used in the system and should also be updated if 
 necessary.
 
