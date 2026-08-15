@@ -59,6 +59,7 @@ Use a compact schema that is easy to maintain in Markdown while still supporting
 Preferred columns:
 
 - `Title`
+- `Watch queue`
 - `User status`
 - `Watched up to`
 - `Latest released`
@@ -69,6 +70,8 @@ Preferred columns:
 
 This schema is recommended, not rigid. Keep the same overall ideas, but adapt the exact columns if the collection needs a slightly different shape in practice.
 
+If an existing tracker table does not have `Watch queue`, add it after `Title`, derive values for all existing rows, and re-sort the table.
+
 ## Example Table Template
 
 Use a structure like this when creating the collection note for the first time:
@@ -78,11 +81,11 @@ Use a structure like this when creating the collection note for the first time:
 
 Tracked TV series with watch progress and release updates.
 
-| Title | User status | Watched up to | Latest released | Next release | Series status | Years | Last checked |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| The Simpsons | watching | S35 | S36 | S37, date unknown | ongoing | 1989- | 2026-05-27 |
-| Friends | completed | S10 | S10 | - | ended | 1994-2004 | 2026-05-27 |
-| Stranger Things | planned | none | S5 | - | ongoing | 2016- | 2026-05-27 |
+| Title | Watch queue | User status | Watched up to | Latest released | Next release | Series status | Years | Last checked |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| The Simpsons | ready | watching | S35 | S36 | S37, date unknown | ongoing | 1989- | 2026-05-27 |
+| Stranger Things | waiting_next_season | watching | S5 | S5 | - | ongoing | 2016- | 2026-05-27 |
+| Friends | - | completed | S10 | S10 | - | ended | 1994-2004 | 2026-05-27 |
 ```
 
 Use `-` or another single consistent empty marker where a value is currently unknown or not applicable.
@@ -90,6 +93,7 @@ Use `-` or another single consistent empty marker where a value is currently unk
 ## Column Meaning
 
 - `Title`: canonical series title, optionally linked to a per-series note.
+- `Watch queue`: derived viewing readiness value used for sorting the table. Use `ready`, `waiting_next_season`, `unreleased`, `paused`, or `-`.
 - `User status`: for example `planned`, `watching`, `completed`, `paused`, or `dropped`.
 - `Watched up to`: the last season the user has watched. If none, store an explicit empty-state value such as `none` or `0`, and use it consistently within the table.
 - `Latest released`: the latest released season currently available.
@@ -100,6 +104,28 @@ Use `-` or another single consistent empty marker where a value is currently unk
 
 Longer notes, short descriptions, and richer commentary should usually live in a separate per-series note rather than in the table itself.
 
+## Watch Queue Values
+
+Use `Watch queue` as a derived status, not as a replacement for `User status`.
+
+- `ready`: released episodes or seasons are available beyond `Watched up to`, and the user has not completed, paused, or dropped the series.
+- `waiting_next_season`: the user is caught up with all currently released seasons, the series is ongoing, and a future season is expected or possible.
+- `unreleased`: the series is tracked before any season has been released.
+- `paused`: the user's own status is `paused`.
+- `-`: use for `completed`, `dropped`, ended series with nothing left to watch, or any row that does not belong in the active viewing queue.
+
+Recompute `Watch queue` whenever `User status`, `Watched up to`, `Latest released`, `Next release`, or `Series status` changes.
+
+Sort the table manually by `Watch queue` using this priority:
+
+1. `ready`
+2. `waiting_next_season`
+3. `unreleased`
+4. `paused`
+5. `-`
+
+Within each priority group, sort rows alphabetically by `Title`.
+
 ## Adding A Series
 
 When the user asks to save or add a TV series:
@@ -109,8 +135,10 @@ When the user asks to save or add a TV series:
 3. Detect duplicates using the corrected canonical title, not only the raw user wording.
 4. Ask which season the user has watched up to if that is not already clear.
 5. If the user has not watched any season, store the chosen default empty-state value consistently.
-6. Add the series as a new table row.
-7. Update `TOC.md` if it exists and the tracker file, `series/` folder, or a per-series note is new or moved.
+6. Derive `Watch queue` from the user's progress and current release information.
+7. Add the series as a new table row.
+8. Re-sort the table by `Watch queue` priority and then by `Title`.
+9. Update `TOC.md` if it exists and the tracker file, `series/` folder, or a per-series note is new or moved.
 
 Use the title language that the user naturally uses for that series. If the user refers to the series as `Друзья`, store `Друзья`; if they refer to it as `Friends`, store `Friends`. Use canonical naming within that language rather than forcibly switching to English.
 
@@ -119,11 +147,14 @@ Use the title language that the user naturally uses for that series. If the user
 When the user says they watched a season, update at least:
 
 - `Watched up to`
+- `Watch queue`
 - `User status` when the status clearly changes
 
 If the series has a separate note, update that note when the user provides information that belongs there rather than in the tracking table.
 
 Do not re-fetch all metadata from the internet for a simple progress update unless the user also asked for a release check.
+
+After updating progress, re-sort the table by `Watch queue` priority and then by `Title`.
 
 ## Checking For Release Updates
 
@@ -132,9 +163,10 @@ When the user asks to check whether new seasons have come out:
 1. Review the tracked TV series table.
 2. Search the internet for current release information for relevant series.
 3. Compare stored values against current information.
-4. Update changed fields such as `Latest released`, `Next release`, `Series status`, `Years`, and `Last checked` when needed.
+4. Update changed fields such as `Latest released`, `Next release`, `Series status`, `Years`, `Last checked`, and `Watch queue` when needed.
 5. If the series has a separate note and important factual context changed, update that note too.
-6. Summarize which series changed and what changed.
+6. Re-sort the table by `Watch queue` priority and then by `Title`.
+7. Summarize which series changed and what changed.
 
 Typical examples:
 
@@ -159,6 +191,7 @@ Typical examples:
 - Do not create too many columns: the table should remain readable.
 - Use consistent season notation across rows.
 - Keep dates in a consistent format when known.
+- Keep `Watch queue` consistent with progress, release metadata, and the custom sort order.
 - Avoid long descriptions inside the tracking table.
 - Put series descriptions and extended notes into separate per-series notes when they are useful.
 
@@ -185,5 +218,6 @@ When reporting results, mention:
 - where the tracking file lives
 - whether a separate per-series note was created or updated
 - whether a series was added, updated, or refreshed
+- whether `Watch queue` changed or the table was re-sorted
 - what internet-derived fields were filled or changed
 - any ambiguity that still needs user input
